@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorSpace">#EBEBEB</color>
+    <color name="colorWhite">#F5F5F5</color>
+    <color name="colorBlack">#333333</color>
+    <color name="colorMain">#FFBB00</color>
+    <color name="colorLucency">#00000000</color>
+    <color name="colorBlurred">#88000000</color>
+    <color name="colorChecke">#DFDFDF</color>
+</resources>

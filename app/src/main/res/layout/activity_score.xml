@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_score"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.qcwy.chaowei.myapplication.ui.ScoreActivity">
+
+    <include layout="@layout/title" />
+
+    <com.qcwy.chaowei.myapplication.ui.CircleProgressView
+        android:id="@+id/cpv_score"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_below="@+id/title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp" />
+
+    <Button
+        android:id="@+id/btn_score_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/cpv_score"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:background="@null"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:text="查看积分明细>"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/cpv_score"
+        android:layout_margin="10dp"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="积分规则"
+                android:textColor="@android:color/darker_gray"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:id="@+id/iv2"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_below="@+id/tv1"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/point" />
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/iv2"
+                android:layout_toRightOf="@id/iv2"
+                android:lineSpacingExtra="5dp"
+                android:text="积分规则奖励:\n每完成一单积2分，金额超过500元的积4分;"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv3"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_below="@+id/tv2"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/point" />
+
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/iv3"
+                android:layout_toRightOf="@id/iv3"
+                android:lineSpacingExtra="5dp"
+                android:text="积分惩罚:\n拒单扣除40积分，被投诉扣除40积分;\n刷单扣除所有积分并永久封号;\n逃单扣除40积分;"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv4"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_below="@+id/tv3"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/point" />
+
+            <TextView
+                android:id="@+id/tv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/iv4"
+                android:layout_toRightOf="@id/iv4"
+                android:lineSpacingExtra="5dp"
+                android:text="消费者评价对积分的影响:\n消费者评分平均低于三星的该单没有积分;\n消费者评分其中一项低于三分且消费者没有投诉的该单只积1分;\n消费者为评分订单15天后自动默认全五星,积2分;"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>

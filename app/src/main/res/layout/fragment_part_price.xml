@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSpace"
+    android:orientation="horizontal">
+
+    <RadioGroup
+        android:id="@+id/rg_part"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="2"
+        android:background="@color/colorSpace"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/rb_0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@animator/selector_button_background"
+            android:button="@null"
+            android:gravity="center"
+            android:minHeight="40dp"
+            android:text="四大部件"
+            android:textColor="@animator/selector_button_text_color"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/rb_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@animator/selector_button_background"
+            android:button="@null"
+            android:gravity="center"
+            android:minHeight="40dp"
+            android:text="制动系统"
+            android:textColor="@animator/selector_button_text_color"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/rb_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@animator/selector_button_background"
+            android:button="@null"
+            android:gravity="center"
+            android:minHeight="40dp"
+            android:text="结构部件"
+            android:textColor="@animator/selector_button_text_color"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/rb_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@animator/selector_button_background"
+            android:button="@null"
+            android:gravity="center"
+            android:minHeight="40dp"
+            android:text="电器配件"
+            android:textColor="@animator/selector_button_text_color"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/rb_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@animator/selector_button_background"
+            android:button="@null"
+            android:gravity="center"
+            android:minHeight="40dp"
+            android:text="通用配件"
+            android:textColor="@animator/selector_button_text_color"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/rb_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@animator/selector_button_background"
+            android:button="@null"
+            android:gravity="center"
+            android:minHeight="40dp"
+            android:text="三轮车配件"
+            android:textColor="@animator/selector_button_text_color"
+            android:textSize="18sp" />
+
+        <RadioButton
+            android:id="@+id/rb_6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@animator/selector_button_background"
+            android:button="@null"
+            android:gravity="center"
+            android:minHeight="40dp"
+            android:text="水电瓶车"
+            android:textColor="@animator/selector_button_text_color"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="2dp"
+            android:background="@color/colorWhite" />
+    </RadioGroup>
+
+    <GridView
+        android:id="@+id/gv_part"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="5"
+        android:horizontalSpacing="10dp"
+        android:numColumns="2">
+
+    </GridView>
+</LinearLayout>

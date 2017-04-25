@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_order_manager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSpace"
+    android:orientation="vertical"
+    tools:context="com.qcwy.chaowei.myapplication.ui.OrderManagerActivity">
+
+    <include layout="@layout/title" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_order_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorWhite"
+        app:tabIndicatorColor="@color/colorMain"
+        app:tabSelectedTextColor="@color/colorMain"
+        app:tabTextAppearance="@android:style/TextAppearance.Holo.Medium"
+        app:tabTextColor="@android:color/darker_gray" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_order_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:background="@color/colorWhite" />
+</LinearLayout>
