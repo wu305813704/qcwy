@@ -82,6 +82,7 @@ public class JpushReceiver extends BroadcastReceiver {
                 if (!MyApplication.isDestroy) {
                     i.setClass(context, OrderManagerActivity.class);
                 }
+
                 context.startActivity(i);
             } else if ("订单消息".equals(title)) {
                 Intent i = new Intent(context, MainActivity.class);
