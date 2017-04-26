@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.qcwy.chaowei.myapplication.R;
+import com.qcwy.chaowei.myapplication.app.MyApplication;
 import com.qcwy.chaowei.myapplication.entity.Rank;
 
 import org.xutils.view.annotation.ViewInject;
@@ -59,13 +60,14 @@ public class RankAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         //如果排名id与自己id相同，则变色
-        if ("007".equals(rank.getId())) {
+        if (MyApplication.jobNo.equals(rank.getJob_no())) {
             holder.tvRank.setTextColor(ContextCompat.getColor(context, R.color.colorMain));
             holder.tvName.setTextColor(ContextCompat.getColor(context, R.color.colorMain));
             holder.tvBonus.setTextColor(ContextCompat.getColor(context, R.color.colorMain));
         }
-        holder.tvRank.setText(rank.getRank());
-        //TODO
+        holder.tvName.setText(rank.getName());
+        holder.tvRank.setText("第" + rank.getRank() + "名");
+        holder.tvBonus.setText((int) rank.getScore() + "单");
         return convertView;
     }
 

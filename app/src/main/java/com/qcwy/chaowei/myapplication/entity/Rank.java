@@ -1,29 +1,20 @@
 package com.qcwy.chaowei.myapplication.entity;
 
 /**
- * Created by KouKi on 2017/1/6.
+ * Created by KouKi on 2017/3/22.
  */
-
 public class Rank {
-    private String id;
-    private String rank;
+    private String job_no;
     private String name;
-    private String bonus;
+    private double score;
+    private int rank;
 
-    public String getId() {
-        return id;
+    public String getJob_no() {
+        return job_no;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getRank() {
-        return rank;
-    }
-
-    public void setRank(String rank) {
-        this.rank = rank;
+    public void setJob_no(String job_no) {
+        this.job_no = job_no;
     }
 
     public String getName() {
@@ -34,11 +25,19 @@ public class Rank {
         this.name = name;
     }
 
-    public String getBonus() {
-        return bonus;
+    public double getScore() {
+        return score;
     }
 
-    public void setBonus(String bonus) {
-        this.bonus = bonus;
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }

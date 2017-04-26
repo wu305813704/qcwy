@@ -121,5 +121,13 @@ public class Urls {
      * 获取预约单信息
      */
     public static final String GET_APPOINTMENT = BASE + "app/getAppointment";
+    /**
+     * 获取预约单信息
+     */
+    public static final String GET_ORDER_COUNT_RANK = BASE + "app/getOrderCountRank";
+    /**
+     * 获取当月订单数
+     */
+    public static final String GET_ORDER_COUNT = BASE + "app/getOrderCount";
 
 }

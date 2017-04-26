@@ -9,18 +9,29 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
+import com.lzy.okgo.callback.StringCallback;
 import com.qcwy.chaowei.myapplication.R;
 import com.qcwy.chaowei.myapplication.adapter.RankAdapter;
 import com.qcwy.chaowei.myapplication.entity.Rank;
+import com.qcwy.chaowei.myapplication.entity.response.ResponseRank;
 import com.qcwy.chaowei.myapplication.utils.CommonCallback;
 import com.qcwy.chaowei.myapplication.utils.DateUtils;
+import com.qcwy.chaowei.myapplication.utils.GsonUtils;
+import com.qcwy.chaowei.myapplication.utils.MyToast;
+import com.qcwy.chaowei.myapplication.utils.Urls;
 
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 public class FragmentRank extends BaseFragment implements View.OnClickListener {
     //日期布局
@@ -29,6 +40,8 @@ public class FragmentRank extends BaseFragment implements View.OnClickListener {
     //日期文本
     @ViewInject(R.id.tv_date)
     private TextView tvDate;
+    @ViewInject(R.id.tv_tips)
+    private TextView tvTips;
     @ViewInject(R.id.lv_rank)
     private ListView lvRank;
     private List<Rank> rankList;
@@ -51,26 +64,52 @@ public class FragmentRank extends BaseFragment implements View.OnClickListener {
         //初始化时间输入框
         tvDate.setText(DateUtils.format(new Date(), "yyyy-MM-dd"));
         rankList = new ArrayList<>();
-        Rank rank = new Rank();
-        rank.setId("007");
-        rank.setRank("第一名");
-        Rank rank1 = new Rank();
-        rank1.setRank("第二名");
-        Rank rank2 = new Rank();
-        rank2.setRank("第三名");
-        Rank rank3 = new Rank();
-        rank3.setRank("第四名");
-        Rank rank4 = new Rank();
-        rank4.setRank("第五名");
-        Rank rank5 = new Rank();
-        rank5.setRank("第六名");
-        rankList.add(rank);
-        rankList.add(rank1);
-        rankList.add(rank2);
-        rankList.add(rank3);
-        rankList.add(rank4);
-        rankList.add(rank5);
         adapter = new RankAdapter(getContext(), rankList);
+        getRank();
+    }
+
+    private void getRank() {
+        String date = null;
+        try {
+            date = DateUtils.format(DateUtils.parse(tvDate.getText().toString(), "yyyy-MM-dd"), "yyyyMMdd");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        OkGo.get(Urls.GET_ORDER_COUNT_RANK)     // 请求方式和请求url
+                .tag(this)                       // 请求的 tag, 主要用于取消对应的请求
+                .cacheKey(Urls.GET_ORDER_COUNT_RANK)            // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
+                .cacheMode(CacheMode.DEFAULT)    // 缓存模式，详细请看缓存介绍
+                .params("date", date)
+                .params("pageNum", 1)
+                .params("pageSize", 6)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        ResponseRank result = GsonUtils.getInstance().fromJson(s, ResponseRank.class);
+                        if (result.getState() == 0) {
+                            if (result.getData().size() != 0) {
+                                tvTips.setVisibility(View.GONE);
+                                lvRank.setVisibility(View.VISIBLE);
+                                rankList.clear();
+                                rankList.addAll(result.getData());
+                                adapter.notifyDataSetChanged();
+                            }
+                        } else {
+                            tvTips.setVisibility(View.VISIBLE);
+                            tvTips.setText(result.getMessage());
+                            lvRank.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        if (response == null) {
+                            MyToast.show(getContext(), "网络连接失败!");
+                        } else {
+                            MyToast.show(getContext(), e);
+                        }
+                    }
+                });
     }
 
     private void setLiseners() {
@@ -85,7 +124,7 @@ public class FragmentRank extends BaseFragment implements View.OnClickListener {
                 DateUtils.selectDate(getContext(), tvDate, new CommonCallback() {
                     @Override
                     public void onSeccess() {
-
+                        getRank();
                     }
                 });
                 break;
