@@ -220,7 +220,10 @@ public class ConfirmTroubleActivity extends BaseActivity {
                         JsonResult result = gson.fromJson(s, JsonResult.class);
                         if (result.getState() == 0) {
                             MyToast.show(getApplicationContext(), "故障信息已发送，等待客户确认");
-                            MyApplication.getApp().getOrder().setState(7);
+                            //更新当前订单列表
+                            Intent intent = new Intent();
+                            intent.setAction(GlobalContants.RECEIVER_UPDATE_CURRENT_ORDERS);
+                            sendBroadcast(intent);
                             startActivity(new Intent(getApplicationContext(), OrderDetailActivity.class));
                             finish();
                         } else {
