@@ -59,7 +59,7 @@ public class MyApplication extends Application {
     //工程师工号
     public static String jobNo;
     //上传地理位置时间间隔
-    public static final int space = 30 * 1000;
+    public static final int space = 60 * 1000;
     private static MyApplication app;
     public static FileWriter fwCatch;
     public static FileWriter fwError;
@@ -229,6 +229,7 @@ public class MyApplication extends Application {
                 if (!isServiceRunning) {
                     startService(service);
                 }
+
                 //主界面被销毁
             } else if (GlobalContants.MAIN_ACTIVITY_DESTROY.equals(intent.getAction())) {
                 startService(service);

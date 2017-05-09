@@ -125,10 +125,10 @@ public class MainService extends Service {
                 //具体业务
                 mLocationClient.requestLocation();//重新获取坐标
                 //30秒自动上传一次地理位置
-                OkGo.get(Urls.UPLOAD_LOCATION)     // 请求方式和请求url
-                        .tag(this)                       // 请求的 tag, 主要用于取消对应的请求
-                        .cacheKey(Urls.UPLOAD_LOCATION)            // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
-                        .cacheMode(CacheMode.DEFAULT)    // 缓存模式，详细请看缓存介绍
+                OkGo.get(Urls.UPLOAD_LOCATION)              // 请求方式和请求url
+                        .tag(this)                          // 请求的 tag, 主要用于取消对应的请求
+                        .cacheKey(Urls.UPLOAD_LOCATION)     // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
+                        .cacheMode(CacheMode.DEFAULT)       // 缓存模式，详细请看缓存介绍
                         .params("jobNo", MyApplication.jobNo)
                         .params("lati", String.valueOf(lati))
                         .params("lon", String.valueOf(lon))
