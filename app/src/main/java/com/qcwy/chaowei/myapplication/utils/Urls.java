@@ -63,6 +63,10 @@ public class Urls {
      */
     public static final String GET_ORDER_MESSAGES = BASE + "app/getOrderMessage";
     /**
+     * 获取工程师的订单消息
+     */
+    public static final String GET_USER = BASE + "app/getUser";
+    /**
      * 根据单号获取订单
      */
     public static final String GET_ORDER_BY_ORDER_NO = BASE + "app/getOrderByOrderNo";

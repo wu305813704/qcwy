@@ -72,6 +72,11 @@ public class MessageAdapter extends BaseAdapter {
             case 2://发起的改派订单消息
                 holder.tvTitle.setText("发起的改派订单");
                 holder.tvContent.setText("您发起了一个改派订单！订单编号：" + msg.getOrder_no());
+                break;
+            case 3://收到后台派发的订单
+                holder.tvTitle.setText("收到后台派发的订单");
+                holder.tvContent.setText("您收到后台派发的订单！订单编号：" + msg.getOrder_no());
+                break;
         }
         try {
             Date date = DateUtils.parse(msg.getSend_time(), "yyyy-MM-dd HH:mm:ss.0");

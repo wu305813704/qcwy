@@ -7,18 +7,44 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.cache.CacheMode;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.request.BaseRequest;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.qcwy.chaowei.myapplication.R;
+import com.qcwy.chaowei.myapplication.app.MyApplication;
+import com.qcwy.chaowei.myapplication.entity.AppUser;
+import com.qcwy.chaowei.myapplication.entity.response.ResponseAppUser;
+import com.qcwy.chaowei.myapplication.utils.DateUtils;
+import com.qcwy.chaowei.myapplication.utils.GsonUtils;
+import com.qcwy.chaowei.myapplication.utils.MyToast;
+import com.qcwy.chaowei.myapplication.utils.Urls;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+
+import java.util.Date;
+
+import okhttp3.Call;
+import okhttp3.Response;
 
 @ContentView(R.layout.activity_personal_detail)
 public class PersonalDetailActivity extends BaseActivity {
     @ViewInject(R.id.btn_modify_icon)
     private Button btnModifyIcon;
+    @ViewInject(R.id.tv_name)
+    private TextView tvName;
+    @ViewInject(R.id.tv_idcard)
+    private TextView tvIdcard;
+    @ViewInject(R.id.tv_job_no)
+    private TextView tvJobNo;
+    @ViewInject(R.id.tv_time)
+    private TextView tvTime;
+
     //修改头像布局
     @ViewInject(R.id.ll_options)
     private LinearLayout llOptions;
@@ -31,7 +57,42 @@ public class PersonalDetailActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        OkGo.get(Urls.GET_USER)
+                .tag(this)                       // 请求的 tag, 主要用于取消对应的请求
+                .cacheKey(Urls.GET_USER)            // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
+                .cacheMode(CacheMode.DEFAULT)    // 缓存模式，详细请看缓存介绍
+                .params("jobNo", MyApplication.jobNo)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onBefore(BaseRequest request) {
+                        super.onBefore(request);
+                    }
 
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        ResponseAppUser result = GsonUtils.getInstance().fromJson(s, ResponseAppUser.class);
+                        if (result.getState() == 0) {
+                            AppUser appUser = result.getData();
+                            tvName.setText(appUser.getName());
+                            tvIdcard.setText(appUser.getId_card());
+                            tvJobNo.setText(appUser.getJob_no());
+                            tvTime.setText(DateUtils.format(new Date(appUser.getRegist_time()), "yyyy年MM月dd日"));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Call call, Response response, Exception e) {
+                        if (response == null) {
+                            MyToast.show(getApplicationContext(), "网络连接失败!");
+                        } else {
+                            MyToast.show(getApplicationContext(), e);
+                        }
+                    }
+
+                    @Override
+                    public void onAfter(String s, Exception e) {
+                    }
+                });
     }
 
     @Override

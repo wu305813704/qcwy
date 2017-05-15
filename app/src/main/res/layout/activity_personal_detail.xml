@@ -28,7 +28,7 @@
                 android:layout_height="80dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/header" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -39,6 +39,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="闫伟凡"
@@ -53,6 +54,7 @@
             </LinearLayout>
 
             <Button
+                android:visibility="gone"
                 android:id="@+id/btn_modify_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,10 +93,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="地址"
+                    android:text="工号"
                     android:textColor="@android:color/darker_gray" />
 
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -117,6 +120,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_idcard"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -124,13 +128,15 @@
                     android:textColor="@color/colorBlack" />
 
                 <TextView
+                    android:id="@+id/tv_job_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="地址"
+                    android:text="工号"
                     android:textColor="@color/colorBlack" />
 
                 <TextView
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -138,6 +144,7 @@
                     android:textColor="@color/colorBlack" />
 
                 <TextView
+                    android:id="@+id/tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -147,6 +154,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
