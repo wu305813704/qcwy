@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.qcwy.chaowei.myapplication.R;
 import com.qcwy.chaowei.myapplication.entity.Part;
+import com.qcwy.chaowei.myapplication.entity.PartDetail;
 import com.qcwy.chaowei.myapplication.utils.Urls;
 
 import org.xutils.view.annotation.ViewInject;
@@ -24,10 +25,10 @@ import java.util.List;
 
 public class PartPriceAdapter extends BaseAdapter {
     private Context context;
-    private List<Part> parts;
+    private List<PartDetail> parts;
     private LayoutInflater inflater;
 
-    public PartPriceAdapter(Context context, List<Part> parts) {
+    public PartPriceAdapter(Context context, List<PartDetail> parts) {
         this.context = context;
         this.parts = parts;
         inflater = LayoutInflater.from(context);
@@ -39,7 +40,7 @@ public class PartPriceAdapter extends BaseAdapter {
     }
 
     @Override
-    public Part getItem(int position) {
+    public PartDetail getItem(int position) {
         return parts.get(position);
     }
 
@@ -50,7 +51,7 @@ public class PartPriceAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Part part = getItem(position);
+        PartDetail part = getItem(position);
         ViewHolder holder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_part_price, null);
@@ -65,7 +66,7 @@ public class PartPriceAdapter extends BaseAdapter {
                 .placeholder(R.drawable.loading)
                 .crossFade()//淡入淡出
                 .into(holder.ivPart);
-        holder.tvPart.setText(part.getName());
+        holder.tvPart.setText(part.getName() + "/" + part.getModel());
         return convertView;
     }
 

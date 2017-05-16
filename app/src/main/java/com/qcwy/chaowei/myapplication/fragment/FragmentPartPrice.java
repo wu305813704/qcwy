@@ -15,7 +15,9 @@ import com.lzy.okgo.callback.StringCallback;
 import com.qcwy.chaowei.myapplication.R;
 import com.qcwy.chaowei.myapplication.adapter.PartPriceAdapter;
 import com.qcwy.chaowei.myapplication.entity.Part;
+import com.qcwy.chaowei.myapplication.entity.PartDetail;
 import com.qcwy.chaowei.myapplication.entity.response.ResponsePart;
+import com.qcwy.chaowei.myapplication.entity.response.ResponsePartDetail;
 import com.qcwy.chaowei.myapplication.utils.MyToast;
 import com.qcwy.chaowei.myapplication.utils.Urls;
 
@@ -37,17 +39,17 @@ public class FragmentPartPrice extends BaseFragment {
     private RadioGroup rgPart;
     @ViewInject(R.id.gv_part)
     private GridView gvPart;
-    private List<Part> parts;
+    private List<PartDetail> parts;
     private PartPriceAdapter adapter;
     private Gson gson;
 
-    private List<Part> parts0;
-    private List<Part> parts1;
-    private List<Part> parts2;
-    private List<Part> parts3;
-    private List<Part> parts4;
-    private List<Part> parts5;
-    private List<Part> parts6;
+    private List<PartDetail> parts0;
+    private List<PartDetail> parts1;
+    private List<PartDetail> parts2;
+    private List<PartDetail> parts3;
+    private List<PartDetail> parts4;
+    private List<PartDetail> parts5;
+    private List<PartDetail> parts6;
 
     @Nullable
     @Override
@@ -142,13 +144,13 @@ public class FragmentPartPrice extends BaseFragment {
         });
     }
 
-    private void updateList(List<Part> partList) {
+    private void updateList(List<PartDetail> partList) {
         parts.clear();
         parts.addAll(partList);
         adapter.notifyDataSetChanged();
     }
 
-    private void getParts(int classify, final List<Part> parts) {
+    private void getParts(int classify, final List<PartDetail> parts) {
         OkGo.get(Urls.GET_PART_BY_CLASSIFY)
                 .tag(this)                       // 请求的 tag, 主要用于取消对应的请求
                 .cacheKey(Urls.UPLOAD_LOCATION)            // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
@@ -157,13 +159,13 @@ public class FragmentPartPrice extends BaseFragment {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        ResponsePart responsePart = gson.fromJson(s, ResponsePart.class);
-                        if (responsePart.getState() == 0) {
+                        ResponsePartDetail result = gson.fromJson(s, ResponsePartDetail.class);
+                        if (result.getState() == 0) {
                             parts.clear();
-                            parts.addAll(responsePart.getData());
+                            parts.addAll(result.getData());
                             updateList(parts);
                         } else {
-                            MyToast.show(getContext(), responsePart.getMessage());
+                            MyToast.show(getContext(), result.getMessage());
                         }
                     }
 

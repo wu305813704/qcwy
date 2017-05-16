@@ -15,6 +15,8 @@ public class AppUser {
     private String online;
     private String lon;
     private String lati;
+    private long update_time;
+    private long regist_time;
 
     public int getId() {
         return id;
@@ -102,5 +104,21 @@ public class AppUser {
 
     public void setLati(String lati) {
         this.lati = lati;
+    }
+
+    public long getUpdate_time() {
+        return update_time;
+    }
+
+    public void setUpdate_time(long update_time) {
+        this.update_time = update_time;
+    }
+
+    public long getRegist_time() {
+        return regist_time;
+    }
+
+    public void setRegist_time(long regist_time) {
+        this.regist_time = regist_time;
     }
 }

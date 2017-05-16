@@ -9,6 +9,7 @@ public class Urls {
      * baseUrl
      */
     public static final String BASE = "http://1699y0i558.iask.in/qcwy/";
+//    public static final String BASE = "http://192.168.3.108:8080/qcwy/";
     /**
      * 登录url
      */
@@ -61,6 +62,10 @@ public class Urls {
      * 获取工程师的订单消息
      */
     public static final String GET_ORDER_MESSAGES = BASE + "app/getOrderMessage";
+    /**
+     * 获取工程师的订单消息
+     */
+    public static final String GET_USER = BASE + "app/getUser";
     /**
      * 根据单号获取订单
      */

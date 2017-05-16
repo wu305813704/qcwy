@@ -33,18 +33,11 @@ public class FaultPartAdapter extends RecyclerView.Adapter<FaultPartAdapter.View
     private List<PartDetail> parts;
     private List<Integer> count;
     private LayoutInflater inflater;
-    private ArrayAdapter<String> spAdapter;
-    private List<String> spList;
 
     public FaultPartAdapter(Context context, List<PartDetail> parts, List<Integer> count) {
         this.context = context;
         this.parts = parts;
         this.count = count;
-        spList = new ArrayList<>();
-        spList.add("全新");
-        spList.add("以旧换新");
-        spList.add("以旧换旧");
-        spAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, spList);
         inflater = LayoutInflater.from(context);
     }
 
@@ -60,13 +53,23 @@ public class FaultPartAdapter extends RecyclerView.Adapter<FaultPartAdapter.View
     public void onBindViewHolder(final FaultPartAdapter.ViewHolder holder, final int position) {
         final PartDetail partDetail = parts.get(position);
         final int maxCount = count.get(position);
+        holder.spList = new ArrayList<>();
+        holder.spList.add("全新");
+        if (partDetail.getPrice_new() != 0) {
+            holder.spList.add("以旧换新");
+        }
+        if (partDetail.getPrice_old() != 0) {
+            holder.spList.add("以旧换旧");
+        }
+        holder.spAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, holder.spList);
+
         Glide.with(context)
                 .load(Urls.BASE + partDetail.getImage())
                 .placeholder(R.drawable.loading)
                 .crossFade()//淡入淡出
                 .into(holder.iv);
         holder.tvName.setText(partDetail.getModel());
-        holder.spPartType.setAdapter(spAdapter);
+        holder.spPartType.setAdapter(holder.spAdapter);
         holder.spPartType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -127,6 +130,8 @@ public class FaultPartAdapter extends RecyclerView.Adapter<FaultPartAdapter.View
         Button btnSubtract;
         @ViewInject(R.id.btn_add)
         Button btnAdd;
+        ArrayAdapter<String> spAdapter;
+        List<String> spList;
 
         public ViewHolder(View itemView) {
             super(itemView);

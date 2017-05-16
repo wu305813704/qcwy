@@ -85,23 +85,9 @@ public class FragmentOrderMessage extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 OrderMessage msg = messages.get(position);
                 Intent intent = new Intent(getContext(), OrderMessageActivity.class);
-                switch (msg.getType()) {
-                    //抢单
-                    case 0:
-                        break;
-                    //收到的改派订单
-                    case 1:
-                        intent.putExtra("type", msg.getType());
-                        intent.putExtra("orderNo", msg.getOrder_no());
-                        startActivity(intent);
-                        break;
-                    //发起的改派订单
-                    case 2:
-                        intent.putExtra("type", msg.getType());
-                        intent.putExtra("orderNo", msg.getOrder_no());
-                        startActivity(intent);
-                        break;
-                }
+                intent.putExtra("type", msg.getType());
+                intent.putExtra("orderNo", msg.getOrder_no());
+                startActivity(intent);
             }
         });
     }

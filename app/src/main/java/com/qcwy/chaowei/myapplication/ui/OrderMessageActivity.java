@@ -27,12 +27,17 @@ import com.qcwy.chaowei.myapplication.entity.OrderReassignment;
 import com.qcwy.chaowei.myapplication.entity.response.ResponseOrder;
 import com.qcwy.chaowei.myapplication.entity.response.ResponseOrderReassignment;
 import com.qcwy.chaowei.myapplication.entity.WxUser;
+import com.qcwy.chaowei.myapplication.utils.DateUtils;
+import com.qcwy.chaowei.myapplication.utils.GsonUtils;
+import com.qcwy.chaowei.myapplication.utils.MyLog;
 import com.qcwy.chaowei.myapplication.utils.MyToast;
 import com.qcwy.chaowei.myapplication.utils.OrderSettingUtils;
 import com.qcwy.chaowei.myapplication.utils.Urls;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
+
+import java.util.Date;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -162,9 +167,42 @@ public class OrderMessageActivity extends BaseActivity {
                                 ResponseOrderReassignment responseOrderReassignment = gson.fromJson(s, ResponseOrderReassignment.class);
                                 if (responseOrderReassignment.getState() == 0) {
                                     OrderReassignment reassignment = responseOrderReassignment.getData();
-                                    tvSendTime.setText(reassignment.getSend_time());
                                     tvSendName.setText(reassignment.getSendName());
+                                    tvTime.setText(reassignment.getSend_time());
                                     tvSendCause.setText(reassignment.getCause());
+                                }
+                            }
+
+                            @Override
+                            public void onError(Call call, Response response, Exception e) {
+                                if (response == null) {
+                                    MyToast.show(getApplicationContext(), "网络连接失败!");
+                                } else {
+                                    MyToast.show(getApplicationContext(), e);
+                                }
+                            }
+                        });
+                break;
+            case 3://收到后台派发的订单
+                llReassignment.setVisibility(View.GONE);
+                llRush.setVisibility(View.GONE);
+                OkGo.get(Urls.GET_ORDER_BY_ORDER_NO)
+                        .tag(this)                       // 请求的 tag, 主要用于取消对应的请求
+                        .cacheKey(Urls.GET_ORDER_BY_ORDER_NO)            // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
+                        .cacheMode(CacheMode.DEFAULT)    // 缓存模式，详细请看缓存介绍
+                        .params("orderNo", orderNo)
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(String s, Call call, Response response) {
+                                ResponseOrder result = GsonUtils.getInstance().fromJson(s, ResponseOrder.class);
+                                if (result.getState() == 0) {
+                                    Order order = result.getData();
+                                    tvOrderNo.setText(String.valueOf(order.getOrder_no()));
+                                    tvTime.setText(DateUtils.format(new Date(order.getSend_time()), "yyyy-MM-dd HH:mm:ss"));
+                                    tvAddress.setText(order.getOrderDetail().getLoc());
+                                    tvUsername.setText(order.getWxUser().getNickname());
+                                    tvMobileNo.setText(order.getWxUser().getTel());
+                                    tvTrouble.setText(order.getFaultDescription());
                                 }
                             }
 
