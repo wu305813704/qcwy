@@ -35,6 +35,7 @@ import com.qcwy.chaowei.myapplication.utils.FileUtils;
 import com.qcwy.chaowei.myapplication.utils.GlobalContants;
 import com.qcwy.chaowei.myapplication.utils.MyCrashHandler;
 import com.qcwy.chaowei.myapplication.utils.MyLog;
+import com.qcwy.chaowei.myapplication.utils.MyToast;
 
 import org.xutils.x;
 

@@ -15,6 +15,7 @@ public class AppUser {
     private String online;
     private String lon;
     private String lati;
+    private String loc;
     private long update_time;
     private long regist_time;
 
@@ -104,6 +105,14 @@ public class AppUser {
 
     public void setLati(String lati) {
         this.lati = lati;
+    }
+
+    public String getLoc() {
+        return loc;
+    }
+
+    public void setLoc(String loc) {
+        this.loc = loc;
     }
 
     public long getUpdate_time() {

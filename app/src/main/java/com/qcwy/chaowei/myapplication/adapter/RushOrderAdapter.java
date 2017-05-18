@@ -109,7 +109,7 @@ public class RushOrderAdapter extends BaseAdapter {
                 //抢单
                 OkGo.get(Urls.RUSH_ORDER)
                         .tag(this)                       // 请求的 tag, 主要用于取消对应的请求
-                        .cacheKey(Urls.UPLOAD_LOCATION)            // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
+                        .cacheKey(Urls.RUSH_ORDER)            // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
                         .cacheMode(CacheMode.DEFAULT)    // 缓存模式，详细请看缓存介绍
                         .params("jobNo", MyApplication.jobNo)
                         .params("orderNo", order.getOrder_no())
