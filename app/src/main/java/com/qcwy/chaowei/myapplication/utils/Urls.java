@@ -8,8 +8,10 @@ public class Urls {
     /**
      * baseUrl
      */
-    public static final String BASE = "http://1699y0i558.iask.in/qcwy/";
+//    public static final String BASE = "http://1699y0i558.iask.in/qcwy/";
+    public static final String BASE = "http://wechat.qichengwuyou.com/qcwy/";
 //    public static final String BASE = "http://192.168.3.108:8080/qcwy/";
+
     /**
      * 登录url
      */

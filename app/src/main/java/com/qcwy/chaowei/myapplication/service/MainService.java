@@ -132,6 +132,7 @@ public class MainService extends Service {
                         .params("jobNo", MyApplication.jobNo)
                         .params("lati", String.valueOf(lati))
                         .params("lon", String.valueOf(lon))
+                        .params("loc", MyApplication.getAddress())
                         .execute(new StringCallback() {
                             @Override
                             public void onSuccess(String s, Call call, Response response) {
