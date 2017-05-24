@@ -216,6 +216,39 @@ public class OrderMessageActivity extends BaseActivity {
                             }
                         });
                 break;
+            case 4://订单已取消
+                llReassignment.setVisibility(View.GONE);
+                llRush.setVisibility(View.GONE);
+                OkGo.get(Urls.GET_ORDER_BY_ORDER_NO)
+                        .tag(this)                       // 请求的 tag, 主要用于取消对应的请求
+                        .cacheKey(Urls.GET_ORDER_BY_ORDER_NO)            // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
+                        .cacheMode(CacheMode.DEFAULT)    // 缓存模式，详细请看缓存介绍
+                        .params("orderNo", orderNo)
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(String s, Call call, Response response) {
+                                ResponseOrder result = GsonUtils.getInstance().fromJson(s, ResponseOrder.class);
+                                if (result.getState() == 0) {
+                                    Order order = result.getData();
+                                    tvOrderNo.setText(String.valueOf(order.getOrder_no()));
+                                    tvTime.setText(DateUtils.format(new Date(order.getSend_time()), "yyyy-MM-dd HH:mm:ss"));
+                                    tvAddress.setText(order.getOrderDetail().getLoc());
+                                    tvUsername.setText(order.getWxUser().getNickname());
+                                    tvMobileNo.setText(order.getWxUser().getTel());
+                                    tvTrouble.setText(order.getFaultDescription());
+                                }
+                            }
+
+                            @Override
+                            public void onError(Call call, Response response, Exception e) {
+                                if (response == null) {
+                                    MyToast.show(getApplicationContext(), "网络连接失败!");
+                                } else {
+                                    MyToast.show(getApplicationContext(), e);
+                                }
+                            }
+                        });
+                break;
         }
     }
 

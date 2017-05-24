@@ -4,10 +4,13 @@ import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.PowerManager;
 
 import com.google.gson.Gson;
+import com.qcwy.chaowei.myapplication.R;
 import com.qcwy.chaowei.myapplication.app.MyApplication;
 import com.qcwy.chaowei.myapplication.entity.Order;
 import com.qcwy.chaowei.myapplication.ui.MainActivity;
@@ -21,6 +24,8 @@ import java.util.List;
 
 import cn.jpush.android.api.JPushInterface;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+
 /**
  * Created by KouKi on 2017/2/17.
  * 极光推送的广播接收器
@@ -30,10 +35,15 @@ public class JpushReceiver extends BroadcastReceiver {
 
     private NotificationManager nm;
 
+    private static SoundPool soundPool = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (null == nm) {
-            nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            nm = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        }
+        if (soundPool != null) {
+            soundPool.load(context, R.raw.mysong, 1);
         }
         Bundle bundle = intent.getExtras();
         MyLog.d("onReceive - " + intent.getAction() + "extras" + bundle.toString());
@@ -65,6 +75,7 @@ public class JpushReceiver extends BroadcastReceiver {
             }
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             MyLog.d("接受到推送下来的通知");
+            soundPool.play(1,1, 1, 0, 0, 1);
             //亮屏
             MyApplication.getApp().acquireWakeLock(PowerManager.FULL_WAKE_LOCK);
             MyApplication.getApp().releaseWakeLock();
@@ -110,4 +121,5 @@ public class JpushReceiver extends BroadcastReceiver {
             }
         }
     }
+
 }

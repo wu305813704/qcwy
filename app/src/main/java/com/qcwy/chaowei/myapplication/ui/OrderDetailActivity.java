@@ -236,6 +236,9 @@ public class OrderDetailActivity extends BaseActivity {
                                             Intent intent = new Intent();
                                             intent.setAction(GlobalContants.RECEIVER_UPDATE_CURRENT_ORDERS);
                                             sendBroadcast(intent);
+                                            intent.putExtra(GlobalContants.INTENT_SKIP, GlobalContants.INTENT_CURRENT_ORDER);
+                                            intent.setClass(getApplicationContext(), OrderManagerActivity.class);
+                                            startActivity(intent);
                                         } else {
                                             MyToast.show(getApplicationContext(), result.getMessage());
                                         }

@@ -101,7 +101,7 @@
                 android:layout_alignTop="@id/iv4"
                 android:layout_toRightOf="@id/iv4"
                 android:lineSpacingExtra="5dp"
-                android:text="消费者评价对积分的影响:\n消费者评分平均低于三星的该单没有积分;\n消费者评分其中一项低于三分且消费者没有投诉的该单只积1分;\n消费者为评分订单15天后自动默认全五星,积2分;"
+                android:text="消费者评价对积分的影响:\n消费者评分平均低于三星的该单没有积分;\n消费者评分其中一项低于三分且消费者没有投诉的该单只积1分;\n消费者未评分订单15天后自动默认全五星,积2分;"
                 android:textSize="14sp" />
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
