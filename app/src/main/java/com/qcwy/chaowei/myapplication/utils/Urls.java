@@ -137,4 +137,9 @@ public class Urls {
      */
     public static final String GET_ORDER_COUNT = BASE + "app/getOrderCount";
 
+    /**
+     * 获取当月订单数
+     */
+    public static final String GET_ORDER_CANCEL = BASE + "app/getOrderCancel";
+
 }

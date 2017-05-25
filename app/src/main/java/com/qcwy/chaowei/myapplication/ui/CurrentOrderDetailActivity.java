@@ -204,7 +204,7 @@ public class CurrentOrderDetailActivity extends BaseActivity {
         } else if (order.getState() == 9) {
             btnStartOrder.setText("等待客户验收");
         } else if (order.getState() == 10) {
-            btnStartOrder.setText("等待客户付款");
+            btnStartOrder.setText("线下付款");
         }
         //百度地图功能配置
         setBaiduMap();
@@ -515,6 +515,8 @@ public class CurrentOrderDetailActivity extends BaseActivity {
                             .setNegativeButton("取消", null)
                             .create()
                             .show();
+                } else if ("线下付款".equals(btnStartOrder.getText().toString())) {
+                    offonlinePay();
                 }
                 break;
             case R.id.btn_hidden:
@@ -599,6 +601,68 @@ public class CurrentOrderDetailActivity extends BaseActivity {
                 hiddenMore(300);
                 break;
         }
+    }
+
+    private void offonlinePay() {
+        new AlertDialog.Builder(this)
+                .setTitle("提示")
+                .setMessage("确定用户已线下付款完毕?")
+                .setPositiveButton("我已确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        btnStartOrder.setEnabled(false);
+                        OkGo.get(Urls.OFFLINE_PAY)     // 请求方式和请求url
+                                .tag(this)                       // 请求的 tag, 主要用于取消对应的请求
+                                .cacheKey(Urls.OFFLINE_PAY)            // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
+                                .cacheMode(CacheMode.DEFAULT)    // 缓存模式，详细请看缓存介绍
+                                .params("jobNo", MyApplication.jobNo)
+                                .params("orderNo", order.getOrder_no())
+                                .execute(new StringCallback() {
+                                    @Override
+                                    public void onSuccess(String s, Call call, Response response) {
+                                        JsonResult result = GsonUtils.getInstance().fromJson(s, JsonResult.class);
+                                        if (result.getState() == 0) {
+                                            MyToast.show(getApplicationContext(), "订单已完成");
+                                            Intent intent = new Intent();
+                                            intent.setAction(GlobalContants.RECEIVER_UPDATE_CURRENT_ORDERS);
+                                            sendBroadcast(intent);
+                                            Intent skip = new Intent(getApplicationContext(), OrderManagerActivity.class);
+                                            skip.putExtra(GlobalContants.INTENT_SKIP, GlobalContants.INTENT_CURRENT_ORDER);
+                                            skip.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(skip);
+                                        } else {
+                                            if ("该订单已付款".equals(result.getMessage())) {
+                                                Intent intent = new Intent();
+                                                intent.setAction(GlobalContants.RECEIVER_UPDATE_CURRENT_ORDERS);
+                                                sendBroadcast(intent);
+                                                Intent skip = new Intent(getApplicationContext(), OrderManagerActivity.class);
+                                                skip.putExtra(GlobalContants.INTENT_SKIP, GlobalContants.INTENT_CURRENT_ORDER);
+                                                skip.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                startActivity(skip);
+                                            }
+                                            MyToast.show(getApplicationContext(), result.getMessage());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onError(Call call, Response response, Exception e) {
+                                        if (response == null) {
+                                            MyToast.show(getApplicationContext(), "网络连接失败!");
+                                        } else {
+                                            MyToast.show(getApplicationContext(), e);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onAfter(String s, Exception e) {
+                                        btnStartOrder.setEnabled(true);
+                                    }
+                                });
+                    }
+                })
+                .setNegativeButton("我点错了", null)
+                .create()
+                .show();
     }
 
     /**

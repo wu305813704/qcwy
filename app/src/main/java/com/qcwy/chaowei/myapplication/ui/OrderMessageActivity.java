@@ -22,15 +22,18 @@ import com.qcwy.chaowei.myapplication.R;
 import com.qcwy.chaowei.myapplication.app.MyApplication;
 import com.qcwy.chaowei.myapplication.entity.JsonResult;
 import com.qcwy.chaowei.myapplication.entity.Order;
+import com.qcwy.chaowei.myapplication.entity.OrderCancel;
 import com.qcwy.chaowei.myapplication.entity.OrderDetail;
 import com.qcwy.chaowei.myapplication.entity.OrderReassignment;
-import com.qcwy.chaowei.myapplication.entity.response.ResponseOrder;
-import com.qcwy.chaowei.myapplication.entity.response.ResponseOrderReassignment;
 import com.qcwy.chaowei.myapplication.entity.WxUser;
+import com.qcwy.chaowei.myapplication.entity.response.ResponseOrder;
+import com.qcwy.chaowei.myapplication.entity.response.ResponseOrderCancel;
+import com.qcwy.chaowei.myapplication.entity.response.ResponseOrderReassignment;
 import com.qcwy.chaowei.myapplication.utils.DateUtils;
+import com.qcwy.chaowei.myapplication.utils.FaultUtils;
 import com.qcwy.chaowei.myapplication.utils.GsonUtils;
-import com.qcwy.chaowei.myapplication.utils.MyLog;
 import com.qcwy.chaowei.myapplication.utils.MyToast;
+import com.qcwy.chaowei.myapplication.utils.OrderCancelUtils;
 import com.qcwy.chaowei.myapplication.utils.OrderSettingUtils;
 import com.qcwy.chaowei.myapplication.utils.Urls;
 
@@ -48,6 +51,10 @@ public class OrderMessageActivity extends BaseActivity {
     private LinearLayout llReassignment;
     @ViewInject(R.id.ll_rush)
     private LinearLayout llRush;
+    @ViewInject(R.id.ll_cancel)
+    private LinearLayout llCancel;
+    @ViewInject(R.id.tv_cancel_cause)
+    private TextView tvCancelCause;
     @ViewInject(R.id.ll_button)
     private LinearLayout llButton;
     @ViewInject(R.id.tv_send_time)
@@ -184,6 +191,7 @@ public class OrderMessageActivity extends BaseActivity {
                         });
                 break;
             case 3://收到后台派发的订单
+            case 5://用户确认了故障
                 llReassignment.setVisibility(View.GONE);
                 llRush.setVisibility(View.GONE);
                 OkGo.get(Urls.GET_ORDER_BY_ORDER_NO)
@@ -197,6 +205,7 @@ public class OrderMessageActivity extends BaseActivity {
                                 ResponseOrder result = GsonUtils.getInstance().fromJson(s, ResponseOrder.class);
                                 if (result.getState() == 0) {
                                     Order order = result.getData();
+                                    OrderSettingUtils.setOrderDetail(order);
                                     tvOrderNo.setText(String.valueOf(order.getOrder_no()));
                                     tvTime.setText(DateUtils.format(new Date(order.getSend_time()), "yyyy-MM-dd HH:mm:ss"));
                                     tvAddress.setText(order.getOrderDetail().getLoc());
@@ -219,6 +228,7 @@ public class OrderMessageActivity extends BaseActivity {
             case 4://订单已取消
                 llReassignment.setVisibility(View.GONE);
                 llRush.setVisibility(View.GONE);
+                llCancel.setVisibility(View.VISIBLE);
                 OkGo.get(Urls.GET_ORDER_BY_ORDER_NO)
                         .tag(this)                       // 请求的 tag, 主要用于取消对应的请求
                         .cacheKey(Urls.GET_ORDER_BY_ORDER_NO)            // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
@@ -230,12 +240,37 @@ public class OrderMessageActivity extends BaseActivity {
                                 ResponseOrder result = GsonUtils.getInstance().fromJson(s, ResponseOrder.class);
                                 if (result.getState() == 0) {
                                     Order order = result.getData();
+                                    OrderSettingUtils.setOrderDetail(order);
                                     tvOrderNo.setText(String.valueOf(order.getOrder_no()));
                                     tvTime.setText(DateUtils.format(new Date(order.getSend_time()), "yyyy-MM-dd HH:mm:ss"));
                                     tvAddress.setText(order.getOrderDetail().getLoc());
                                     tvUsername.setText(order.getWxUser().getNickname());
                                     tvMobileNo.setText(order.getWxUser().getTel());
                                     tvTrouble.setText(order.getFaultDescription());
+                                }
+                            }
+
+                            @Override
+                            public void onError(Call call, Response response, Exception e) {
+                                if (response == null) {
+                                    MyToast.show(getApplicationContext(), "网络连接失败!");
+                                } else {
+                                    MyToast.show(getApplicationContext(), e);
+                                }
+                            }
+                        });
+                OkGo.get(Urls.GET_ORDER_CANCEL)
+                        .tag(this)                       // 请求的 tag, 主要用于取消对应的请求
+                        .cacheKey(Urls.GET_ORDER_CANCEL)            // 设置当前请求的缓存key,建议每个不同功能的请求设置一个
+                        .cacheMode(CacheMode.DEFAULT)    // 缓存模式，详细请看缓存介绍
+                        .params("orderNo", orderNo)
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onSuccess(String s, Call call, Response response) {
+                                ResponseOrderCancel result = GsonUtils.getInstance().fromJson(s, ResponseOrderCancel.class);
+                                if (result.getState() == 0) {
+                                    OrderCancel orderCancel = result.getData();
+                                    tvCancelCause.setText(OrderCancelUtils.getCancelStr(orderCancel.getCause()));
                                 }
                             }
 

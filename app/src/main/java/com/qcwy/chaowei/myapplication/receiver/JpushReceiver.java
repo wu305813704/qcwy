@@ -67,11 +67,11 @@ public class JpushReceiver extends BroadcastReceiver {
                 updateRushOrders.setAction(GlobalContants.RECEIVER_UPDATE_RUSH_ORDERS);
                 context.sendBroadcast(updateRushOrders);
             } else if ("orderMsg".equals(title)) {
-                //如果是订单消息
-                Intent orderMsg = new Intent();
-                orderMsg.setAction(GlobalContants.RECEIVER_GET_MESSAGE);
-                orderMsg.putExtra("msg", msg);
-                context.sendBroadcast(orderMsg);
+//                //如果是订单消息
+//                Intent orderMsg = new Intent();
+//                orderMsg.setAction(GlobalContants.RECEIVER_GET_MESSAGE);
+//                orderMsg.putExtra("msg", msg);
+//                context.sendBroadcast(orderMsg);
             }
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             MyLog.d("接受到推送下来的通知");
@@ -93,7 +93,6 @@ public class JpushReceiver extends BroadcastReceiver {
                 if (!MyApplication.isDestroy) {
                     i.setClass(context, OrderManagerActivity.class);
                 }
-
                 context.startActivity(i);
             } else if ("订单消息".equals(title)) {
                 Intent i = new Intent(context, MainActivity.class);

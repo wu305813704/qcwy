@@ -81,7 +81,6 @@ public class PartAdapter extends BaseAdapter {
         });
         holder.tvName.setText(warehouseEmployee.getName());
         holder.tvModel.setText(warehouseEmployee.getModle());
-        holder.tvBrand.setText(warehouseEmployee.getBrand());
         holder.tvCount.setText(String.valueOf(warehouseEmployee.getCount()));
         holder.cb.setChecked(isSelected.get(position));
         return convertView;
@@ -92,8 +91,6 @@ public class PartAdapter extends BaseAdapter {
         TextView tvName;
         @ViewInject(R.id.tv_model)
         TextView tvModel;
-        @ViewInject(R.id.tv_brand)
-        TextView tvBrand;
         @ViewInject(R.id.tv_count)
         TextView tvCount;
         @ViewInject(R.id.cb_checked)
